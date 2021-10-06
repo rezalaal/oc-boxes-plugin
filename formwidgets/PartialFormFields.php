@@ -83,7 +83,7 @@ class PartialFormFields extends FormWidgetBase
     }
 
     /**
-     * prepareVars for view data
+     * prepare view vars
      */
     public function prepareVars()
     {
