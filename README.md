@@ -38,7 +38,7 @@ Let's say you have a simple partial in your theme:
 
 <p>{{ box.text }}<p>
 
-<img src="{{ box.image.getThumb(200, 'auto'9 }}" alt="">
+<img src="{{ box.image.getThumb(200, 'auto' }}" alt="">
 ```
 
 You can now create a `yaml` file with the same name in the same folder and define the data schema:
