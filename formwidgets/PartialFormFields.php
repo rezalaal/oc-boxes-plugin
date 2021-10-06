@@ -15,6 +15,7 @@ class PartialFormFields extends FormWidgetBase
      * @inheritDoc
      */
     protected $defaultAlias = 'offline_boxes_partial_form_fields';
+
     /**
      * @var Form
      */
@@ -24,9 +25,7 @@ class PartialFormFields extends FormWidgetBase
     {
         $yaml = YamlConfig::instance();
 
-        // Get the partial from the Post data, from the model, or use the first available from the theme.
         $partial = $this->getPartial($yaml);
-
         if (!$partial) {
             return;
         }
