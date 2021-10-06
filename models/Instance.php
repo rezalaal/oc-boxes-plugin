@@ -60,9 +60,8 @@ class Instance extends Model
      * Build a clone of this model.
      *
      * This method builds a new Instance model, that contains the json decoded "data" property
-     * as specific fields. It also sets all available relations on the model instance.
-     * This lets us use the model as if all values in the "data" property were real fields.
-     * as
+     * as specific fields. This lets us use the model as if all values in the "data"
+     * property were real fields.
      */
     public function buildClone(array $dataOverrides = []): self
     {
