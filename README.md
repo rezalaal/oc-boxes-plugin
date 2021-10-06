@@ -8,7 +8,7 @@ This plugin enables you to define a data schema for a partial using October's ex
 Based on that partial, an input form will be generated in the backend where an end-user can add their variables for the
 partial.
 
-One partial is called `Box`. Boxes can be grouped into `Collections`. Collections can be placed on CMS pages and
+A single partial is called `Box`. Boxes can be grouped into `Collections`. Collections can be placed on CMS pages and
 generate the markup for whole pages.
 
 You can have multiple `Categories` of `Collections`, like `Pages`, `Blog Entries` or `Landing Pages`.
