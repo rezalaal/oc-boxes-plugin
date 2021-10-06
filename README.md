@@ -86,15 +86,15 @@ form:
 
 ### modelClass
 
-Use a custom instance model class for this Box. See [Custom Instance Models](#custom-instance-models).
+Optional, use a custom instance model class for this Box. See [Custom Instance Models](#custom-instance-models).
 
 ### name
 
-A human readable name for this partial.
+Optional, A human readable name for this partial.
 
 ### eagerLoad
 
-What relations to eager load if this partial gets rendered. Possible values are `auto` (eager load all defined
+Optional, defaults to `false`, defines which relations to eager load if this partial gets rendered. Possible values are `auto` (eager load all defined
 relations),`false` (eager load nothing) or an array of relation names:
 
 ```yaml
@@ -105,7 +105,7 @@ eagerLoad:
 
 ### form
 
-An October CMS `form` definition. [(Docs)](https://octobercms.com/docs/backend/forms#form-fields)
+Required, an October CMS `form` definition. [(Docs)](https://octobercms.com/docs/backend/forms#form-fields)
 
 ## Instance Model
 
