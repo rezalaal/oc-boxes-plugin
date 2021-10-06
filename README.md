@@ -1,5 +1,7 @@
 # Boxes Plugin for October CMS
 
+> **NOTE:** This plugin is not ready for production yet and just a proof of concept!
+
 The Boxes plugin makes it easy to build partial driven layouts.
 
 This plugin enables you to define a data schema for a partial using October's existing `yaml` configuration paradigm.
