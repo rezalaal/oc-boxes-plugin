@@ -1,0 +1,8 @@
+instances:
+    label: 'offline.boxes::lang.box'
+    manage:
+        form: $/offline/boxes/models/instance/fields.yaml
+        list: $/offline/boxes/models/instance/columns.yaml
+    view:
+        list: $/offline/boxes/models/instance/columns.yaml
+        toolbarButtons: create|delete

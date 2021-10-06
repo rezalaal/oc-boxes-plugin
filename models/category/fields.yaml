@@ -1,0 +1,10 @@
+fields:
+    name:
+        label: 'offline.boxes::lang.name'
+        span: auto
+        type: text
+    icon:
+        label: 'offline.boxes::lang.icon'
+        span: auto
+        type: text
+        default: icon-file

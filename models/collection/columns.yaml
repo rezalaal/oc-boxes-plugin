@@ -1,0 +1,27 @@
+columns:
+    name:
+        label: 'offline.boxes::lang.name'
+        type: text
+        searchable: true
+        sortable: true
+    slug:
+        label: 'offline.boxes::lang.slug'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+    category_id:
+        label: 'offline.boxes::lang.category'
+        type: text
+        searchable: true
+        sortable: true
+        select: name
+        relation: category
+    created_at:
+        label: 'offline.boxes::lang.created_at'
+        type: datetime
+        invisible: true
+    updated_at:
+        label: 'offline.boxes::lang.updated_at'
+        type: datetime
+        invisible: true

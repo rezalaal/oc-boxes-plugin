@@ -1,0 +1,7 @@
+<div class="oc-collection">
+    {% for box in __SELF__.boxes %}
+        <div class="oc-box">
+            {{ box.render() | raw }}
+        </div>
+    {% endfor %}
+</div>

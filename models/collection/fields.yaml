@@ -1,0 +1,10 @@
+fields:
+    name:
+        label: 'offline.boxes::lang.name'
+        span: auto
+        type: text
+
+    _instances:
+        type: partial
+        span: full
+        path: instances

@@ -1,0 +1,17 @@
+fields:
+    is_enabled:
+        label: 'offline.boxes::lang.is_enabled'
+        comment: 'offline.boxes::lang.is_enabled_comment'
+        span: auto
+        type: switch
+
+    partial:
+        label: 'offline.boxes::lang.partial'
+        type: dropdown
+        span: auto
+
+    data:
+        type: partialformfields
+        span: full
+        dependsOn: partial
+

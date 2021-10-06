@@ -1,0 +1,21 @@
+plugin:
+    name: 'offline.boxes::lang.plugin.name'
+    description: 'offline.boxes::lang.plugin.description'
+    author: OFFLINE
+    icon: oc-icon-cube
+    homepage: ''
+navigation:
+    boxes:
+        label: 'offline.boxes::lang.content'
+        url: offline/boxes/collections
+        icon: icon-cube
+        order: 501
+        permissions:
+            - 'offline.boxes.*'
+permissions:
+    offline.boxes.manage_collections:
+        tab: 'offline.boxes::lang.plugin.name'
+        label: 'offline.boxes::lang.permissions.manage_collections'
+    offline.boxes.manage_categories:
+        tab: 'offline.boxes::lang.plugin.name'
+        label: 'offline.boxes::lang.permissions.manage_categories'

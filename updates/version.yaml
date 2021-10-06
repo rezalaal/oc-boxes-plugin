@@ -1,0 +1,5 @@
+1.0.0:
+    - 'Initial release.'
+    - create_offline_boxes_instances.php
+    - create_offline_boxes_collections.php
+    - create_offline_boxes_categories.php
