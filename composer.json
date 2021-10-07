@@ -1,0 +1,21 @@
+{
+  "name": "offline/oc-boxes-plugin",
+  "type": "october-plugin",
+  "description": "Easily build partial driven layouts in October CMS",
+  "keywords": [
+    "october",
+    "cms",
+    "plugin"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tobias Kündig",
+      "email": "tobias@offline.ch"
+    }
+  ],
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
+
