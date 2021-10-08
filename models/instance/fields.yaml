@@ -4,6 +4,7 @@ fields:
         comment: 'offline.boxes::lang.is_enabled_comment'
         span: auto
         type: switch
+        default: 1
 
     partial:
         label: 'offline.boxes::lang.partial'

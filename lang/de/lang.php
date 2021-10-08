@@ -21,6 +21,7 @@
     'sort_order' => 'Sortierung',
     'created_at' => 'Erstellt',
     'updated_at' => 'Bearbeitet',
+    'please_select' => '-- Bitte wählen',
     'pages' => 'Seiten',
     'boxlist' => [
         'name' => 'Liste von Boxen',

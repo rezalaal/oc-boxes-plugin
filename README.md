@@ -8,8 +8,8 @@ This plugin enables you to define a data schema for a partial using October's ex
 Based on that partial, an input form will be generated in the backend where an end-user can add their variables for the
 partial.
 
-A single partial is called `Box`. Boxes can be grouped into `Collections`. Collections can be placed on CMS pages and
-generate the markup for whole pages.
+A single partial is called `Box`. Boxes can be grouped into `Collections`. Collections can be placed on a CMS page to
+generate it's markup.
 
 You can have multiple `Categories` of `Collections`, like `Pages`, `Blog Entries` or `Landing Pages`.
 
@@ -72,6 +72,9 @@ modelClass: "YourVendor\\BlocksExtensionPlugin\\Models\\InstanceWithSpecialRelat
 name: Your custom partial name
 eagerLoad:
     - special_relation
+translatable:
+    - text
+    - subtitle
 form:
     fields:
         title:
@@ -94,14 +97,18 @@ Optional, A human readable name for this partial.
 
 ### eagerLoad
 
-Optional, defaults to `false`, defines which relations to eager load if this partial gets rendered. Possible values are `auto` (eager load all defined
-relations),`false` (eager load nothing) or an array of relation names:
+Optional, defaults to `false`, defines which relations to eager load if this partial gets rendered. Possible values
+are `auto` (eager load all defined relations),`false` (eager load nothing) or an array of relation names:
 
 ```yaml
 eagerLoad:
     - category
     - specs_file
 ```
+
+### translatable
+
+Integration for RainLab.Translate. An array of attributes that are translatable.
 
 ### form
 
