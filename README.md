@@ -228,7 +228,7 @@ form:
             type: text
 ```
 
-If there are multiple `_includes` on the same level, you can use any suffix to differentiate them:
+If there are multiple `_include` on the same level, you can use any suffix to differentiate them:
 
 ```yaml
 name: 'I am composed using _includes!'
