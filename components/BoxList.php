@@ -40,6 +40,10 @@ class BoxList extends ComponentBase
             ::with([
                 'instances' => function ($q) {
                     $q->where('is_enabled', true);
+
+                    if (class_exists(\RainLab\Translate\Plugin::class)) {
+                        $q->with('translations');
+                    }
                 }
             ])
             ->find($this->property('id'));

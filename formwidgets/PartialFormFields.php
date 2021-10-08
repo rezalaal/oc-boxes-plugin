@@ -4,6 +4,7 @@ use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use OFFLINE\Boxes\Classes\YamlConfig;
 use OFFLINE\Boxes\Models\Instance;
+use RainLab\Translate\Classes\Translator;
 
 /**
  * PartialFormFields widget renders a
@@ -21,6 +22,11 @@ class PartialFormFields extends FormWidgetBase
      */
     protected $widget;
 
+    /**
+     * @var object
+     */
+    protected object $partialConfig;
+
     public function init()
     {
         $yaml = YamlConfig::instance();
@@ -30,25 +36,13 @@ class PartialFormFields extends FormWidgetBase
             return;
         }
 
-        $config = $this->buildConfig($yaml, $partial);
+        $this->partialConfig = $yaml->configForPartial($partial);
 
-        $this->widget = $this->buildWidget($config);
-    }
+        $this->model->partial = $partial;
 
-    /**
-     * Build the config object for the Form widget.
-     */
-    protected function buildConfig(YamlConfig $yaml, string $partial)
-    {
-        $partialConfig = $yaml->configForPartial($partial);
-
-        $config = (object)$partialConfig->form;
-        $config->arrayName = $this->formField->getName();
-        $config->model = property_exists($partialConfig, 'modelClass')
-            ? new $partialConfig->modelClass
-            : new Instance();
-
-        return $config;
+        $this->widget = $this->buildWidget(
+            $this->buildConfig($partial)
+        );
     }
 
     /**
@@ -66,6 +60,25 @@ class PartialFormFields extends FormWidgetBase
         $widget->bindToController();
 
         return $widget;
+    }
+
+    /**
+     * Build the config object for the Form widget.
+     */
+    protected function buildConfig(string $partial)
+    {
+
+        $config = (object)$this->partialConfig->form;
+        $config->arrayName = $this->formField->getName();
+
+        $model = property_exists($this->partialConfig, 'modelClass')
+            ? new $this->partialConfig->modelClass
+            : new Instance();
+
+        $model->partial = $partial;
+        $config->model = $model->buildClone([], $this->partialConfig);
+
+        return $config;
     }
 
     /**
@@ -93,19 +106,34 @@ class PartialFormFields extends FormWidgetBase
         $this->vars['model'] = $this->model;
     }
 
+    public function getSaveValue($value)
+    {
+        // Set the translated attributes values on the model, if RainLab.Translate is installed.
+        if ($this->model->methodExists('setAttributeTranslated')) {
+            $data = post('RLTranslate', []);
+
+            $defaultLocale = Translator::instance()->getDefaultLocale();
+
+            foreach ($data as $locale => $fields) {
+                // Only set attribute values for non-default locales.
+                if ($locale === $defaultLocale) {
+                    continue;
+                }
+                foreach ($fields as $field => $fieldValue) {
+                    $this->model->setAttributeTranslated($field, $fieldValue, $locale);
+                }
+            }
+        }
+
+        return $this->widget->getSaveData();
+    }
+
     /**
-     * Get the active partial from the Post data, from the model or use
-     * the first available YAML from the theme as fallback.
+     * Get the active partial from the Post data or from the model.
      */
     protected function getPartial(YamlConfig $yaml)
     {
-        $partial = post('Instance.partial', $this->model->partial);
-
-        if (!$partial) {
-            $partial = array_first(array_keys($yaml->listPartials()));
-        }
-
-        return $partial;
+        return post('Instance.partial', $this->model->partial);
     }
 
 }

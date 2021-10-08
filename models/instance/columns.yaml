@@ -1,13 +1,18 @@
 columns:
-    id:
-        label: ID
-        type: number
-        sortable: true
+    _partial:
+        label: 'offline.boxes::lang.partial'
+        type: partial
+        sortable: false
+        path: $/offline/boxes/models/instance/_partial.htm
     is_enabled:
         label: 'offline.boxes::lang.is_enabled'
         type: switch
         searchable: true
+        sortable: false
+    sort_order:
+        label: 'offline.boxes::lang.sort_order'
         sortable: true
+        invisible: true
     created_at:
         label: 'offline.boxes::lang.created_at'
         type: datetime
