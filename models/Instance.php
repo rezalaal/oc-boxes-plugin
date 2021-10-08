@@ -34,6 +34,9 @@ class Instance extends Model
         'partial' => 'string',
     ];
 
+    public $attributeNames = [];
+    public $customMessages = [];
+
     public $attachOne = [
         'image' => File::class,
         'file' => File::class,
@@ -92,11 +95,12 @@ class Instance extends Model
         $clone->exists = $this->exists;
 
         $clone->setTranslatableFromConfig($yaml);
+        $clone->setRulesFromConfig($yaml);
         $clone->forceFill($data);
 
         // Apply translated attributes.
         if ($clone->exists && $this->isClassExtendedWith(TranslatableModel::class)) {
-            $obj = $clone->translations->first(function ($value, $key) {
+            $obj = $clone->translations->first(function ($value) {
                 return $value->attributes['locale'] === Translator::instance()->getLocale();
             });
             $result = $obj ? json_decode($obj->attribute_data, true) : [];
@@ -114,9 +118,10 @@ class Instance extends Model
             return;
         }
 
-        $this->setTranslatableFromConfig(
-            $this->getPartialConfig(),
-        );
+        $config = $this->getPartialConfig();
+
+        $this->setTranslatableFromConfig($config);
+        $this->setRulesFromConfig($config);
     }
 
     /**
@@ -139,6 +144,39 @@ class Instance extends Model
         return collect($this->getRelationDefinitions())->flatMap(function ($definition) {
             return array_keys($definition);
         })->toArray();
+    }
+
+    /**
+     * Set the $rules property if it is defined in the YAML config.
+     */
+    protected function setRulesFromConfig(object $config)
+    {
+        if (!property_exists($config, 'validation')) {
+            return;
+        }
+
+        $validation = (object)$config->validation;
+
+        if (property_exists($validation, 'rules')) {
+            foreach ($validation->rules as $key => $rule) {
+                if (is_array($rule)) {
+                    $rule = implode('|', $rule);
+                }
+                $this->rules['data.' . $key] = $rule;
+            }
+        }
+
+        if (property_exists($validation, 'attributeNames')) {
+            foreach ($validation->attributeNames as $attribute => $name) {
+                $this->attributeNames['data.' . $attribute] = $name;
+            }
+        }
+
+        if (property_exists($validation, 'customMessages')) {
+            foreach ($validation->customMessages as $attribute => $name) {
+                $this->customMessages['data.' . $attribute] = $name;
+            }
+        }
     }
 
     /**

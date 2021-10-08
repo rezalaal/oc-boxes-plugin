@@ -75,6 +75,15 @@ eagerLoad:
 translatable:
     - text
     - subtitle
+validation:
+    rules:
+        title:
+            - required
+            - "min:15"
+    attributeNames:
+        title: Title
+    customMessages:
+        title.min: "The title has to be at least 15 characters long"
 form:
     fields:
         title:
@@ -108,7 +117,7 @@ eagerLoad:
 
 ### translatable
 
-Integration for RainLab.Translate. An array of attributes that are translatable.
+Optional, integration for `RainLab.Translate`. An array of attributes that are translatable.
 
 
 ```yaml
@@ -116,6 +125,10 @@ translatable:
     - title
     - content
 ```
+
+### validation
+
+Optional, values for the `$rules`, `$attributeNames` and `$customMessages` properties of the `Validation` trait.
 
 ### form
 
@@ -215,7 +228,7 @@ form:
             type: text
 ```
 
-If there are multiple `_includes` on the same level, you can use any suffix to differentiate these:
+If there are multiple `_includes` on the same level, you can use any suffix to differentiate them:
 
 ```yaml
 name: 'I am composed using _includes!'
