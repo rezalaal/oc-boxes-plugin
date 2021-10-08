@@ -110,6 +110,13 @@ eagerLoad:
 
 Integration for RainLab.Translate. An array of attributes that are translatable.
 
+
+```yaml
+translatable:
+    - title
+    - content
+```
+
 ### form
 
 Required, an October CMS `form` definition. [(Docs)](https://octobercms.com/docs/backend/forms#form-fields)
