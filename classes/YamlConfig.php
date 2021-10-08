@@ -112,21 +112,18 @@ class YamlConfig
      */
     public function listPartials()
     {
-        $files = Finder::create()->files()->name(['*.yml', '*.yaml', '*.htm'])->in($this->partialsPath)->sortByType();
+        $files = Finder::create()->files()->name(['*.yml', '*.yaml'])->in($this->partialsPath)->sortByType();
         if (!$files->hasResults()) {
             return [];
         }
 
         // Only include partials/YAML pairs. Single partials and single YAMLs must be ignored.
-        $seenOnce = [];
         $hasYamlAndHtm = [];
         foreach ($files as $file) {
-            $withoutExtension = str_replace($file->getExtension(), '', $file->getFilename());
-            if (array_key_exists($withoutExtension, $seenOnce)) {
+            $htm = str_replace(['.yml', '.yaml'], '', $file->getRealPath()) . '.htm';
+            if (file_exists($htm)) {
                 $hasYamlAndHtm[] = $file;
-                continue;
             }
-            $seenOnce[$withoutExtension] = true;
         }
 
         if (count($hasYamlAndHtm) === 0) {
