@@ -168,3 +168,71 @@ modelClass: "\\YourVendor\\BoxesExtension\\Models\\InstanceWithImageGallery"
     <img src="{{ image.getThumb(200, 'auto') }}" alt="">
 {% endfor %}
 ```
+
+
+### Include common YAML structures
+
+You may have a project where many partials share the same basic fields:
+
+```yaml
+# base-fields.yaml
+margin:
+  label: Margin above and below
+  type: dropdown
+  options:
+    sm: Small
+    md: Medium
+    lg: Large
+```
+
+You can use the special `_include` key prefix in any YAML file to include these shared structures:
+
+```yaml
+name: 'I am composed using _includes!'
+form:
+    fields:
+        _include: base-fields.yaml # relative to the "partials" directory
+        title:
+            label: Titel
+            type: text
+```
+
+The above example results in:
+
+```yaml
+name: 'I am composed using _includes!'
+form:
+    fields:
+        margin:
+            label: Margin above and below
+            type: dropdown
+            options:
+                sm: Small
+                md: Medium
+                lg: Large
+        title:
+            label: Titel
+            type: text
+```
+
+If there are multiple `_includes` on the same level, you can use any suffix to differentiate these:
+
+```yaml
+name: 'I am composed using _includes!'
+form:
+    fields:
+        _include_above: above-fields.yaml
+        title:
+            label: Titel
+            type: text
+        _include_below: below-fields.yaml
+```
+
+If you want to include a YAML file from outside the partials directory, prefix the path with a `$`:
+
+```yaml
+name: 'I am composed using _includes!'
+form:
+    fields:
+        _include: $/plugins/offline/boxes-extensions/some-special.yaml
+```

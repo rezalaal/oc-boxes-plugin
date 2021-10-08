@@ -6,6 +6,7 @@ use October\Rain\Parse\Yaml;
 use October\Rain\Support\Traits\Singleton;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use System\Helpers\System;
 
 /**
  * Parses the YAML configuration files that define partial data schemas.
@@ -20,9 +21,21 @@ class YamlConfig
      */
     protected $partialsPath;
 
+    /**
+     * @var System
+     */
+    protected $systemHelper;
+
+    /**
+     * @var Yaml
+     */
+    protected $yaml;
+
     public function __construct()
     {
         $this->partialsPath = sprintf("%s/%s/", \Cms\Classes\Theme::getActiveTheme()->getPath(), 'partials');
+        $this->systemHelper = new System();
+        $this->yaml = new Yaml();
     }
 
     /**
@@ -38,7 +51,60 @@ class YamlConfig
             return new \stdClass();
         }
 
-        return (object)(new Yaml)->parseFileCached($yamlPath);
+        $base = $this->yaml->parseFileCached($yamlPath);
+
+        return $this->parseIncludes($base);
+    }
+
+    /**
+     * Replace all `_include` keys with their linked content.
+     */
+    protected function parseIncludes(array $config)
+    {
+        $newConfig = [];
+        $iterate = function ($config) use (&$iterate, $newConfig) {
+            foreach ($config as $key => $value) {
+                if ($key === '_include' || starts_with($key, '_include_')) {
+                    foreach ($this->getInclude($value) as $newKey => $newValue) {
+                        $newConfig[$newKey] = $newValue;
+                    }
+                } elseif (is_array($value)) {
+                    $newConfig[$key] = $iterate($value);
+                } else {
+                    $newConfig[$key] = $value;
+                }
+            }
+            return $newConfig;
+        };
+
+        $newConfig = $iterate($config);
+
+        return (object)$newConfig;
+    }
+
+    /**
+     * Load and parse an include.
+     */
+    protected function getInclude($path)
+    {
+        // A path that starts with $ is relative to the project's base.
+        if (starts_with($path, '$')) {
+            $path = base_path(substr($path, 1));
+        } else {
+            $path = $this->partialsPath . $path;
+        }
+
+        if (!file_exists($path)) {
+            throw new \RuntimeException(sprintf('[OFFLINE.Boxes] Could not find referenced file to include in YAML config: %s does not exist',
+                $path));
+        }
+
+        if (!$this->systemHelper->checkBaseDir($path)) {
+            throw new \RuntimeException(sprintf('[OFFLINE.Boxes] Cannot include files from outside the project\'s base directory: %s cannot be used',
+                $path));
+        }
+
+        return $this->yaml->parseFileCached($path);
     }
 
     /**
@@ -64,3 +130,4 @@ class YamlConfig
             ->toArray();
     }
 }
+
