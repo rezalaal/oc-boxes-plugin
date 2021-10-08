@@ -41,7 +41,7 @@
                     data-request-confirm="<?= e(trans('backend::lang.form.confirm_delete')) ?>">
                 </button>
                 <span class="btn-text">
-                    <?= e(trans('backend::lang.form.or')) ?> <a href="<?= Backend::url('offline/boxes/collections') ?>"><?= e(trans('backend::lang.form.cancel')) ?></a>
+                    <?= e(trans('backend::lang.form.or')) ?> <a href="<?= Backend::url('offline/boxes/collections?category_id=' . get('category_id')) ?>"><?= e(trans('backend::lang.form.cancel')) ?></a>
                 </span>
             </div>
         </div>
@@ -51,6 +51,6 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url('offline/boxes/collections') ?>" class="btn btn-default"><?= e(trans('backend::lang.form.return_to_list')) ?></a></p>
+    <p><a href="<?= Backend::url('offline/boxes/collections?category_id=' . get('category_id')) ?>" class="btn btn-default"><?= e(trans('backend::lang.form.return_to_list')) ?></a></p>
 
 <?php endif ?>
